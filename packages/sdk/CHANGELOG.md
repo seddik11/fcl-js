@@ -1,3 +1,47 @@
+## Unreleased
+
+- 2022-02-04 -- [@chasefleming](https://github.com/chasefleming): Add options for for getting account by block height.
+
+```javascript
+await sdk.account("0x123") // Existing: get account at the latest block
+await sdk.account("0x123", {height: 123}) // New: get account at the block with the provided height
+```
+
+## 0.0.57-alpha.3 -- 2022-02-02
+
+- 2022-02-03 -- [@gregsantos](https://github.com/gregsantos): Rename `preSendCheck` to `voucherIntercept` and expose.
+- 2022-01-31 -- [@chasefleming](https://github.com/chasefleming): Fix SDK circular dependency in `src/block.js` file.
+
+## 0.0.57-alpha.1 -- 2022-01-21
+
+- 2022-01-21 -- [@JeffreyDoyle](https://github.com/JeffreyDoyle): Abstracts away the SDK transport modules into their own packages. The JS-SDK now makes use of transport modules for sending an interaction to an access api and receiving a response. A transport module must be defined in config:
+
+```javascript
+import {send as grpcSend} from "@onflow/transport-grpc"
+import {send as httpSend} from "@onflow/transport-http"
+
+// Configure SDK to use GRPC
+sdk.config()
+.put("accessNode.api", "https://access-testnet.onflow.org")
+.put("sdk.transport", grpcSend)
+
+// Configure SDK to use HTTP
+sdk.config()
+.put("accessNode.api", "https://rest-testnet.onflow.org")
+.put("sdk.transport", httpSend)
+```
+
+## 0.0.56-alpha.3 -- 2022-01-19
+
+- 2022-01-07 -- [@chasefleming](https://github.com/chasefleming): Create methods for more easily getting a block by height or by id.
+
+```javascript
+await sdk.block() // get latest finalized block
+await sdk.block({sealed: true}) // get latest sealed block
+await sdk.block({id: 'abc'}) // get block by id
+await sdk.block({height: 123}) // get block by height
+```
+
 ## 0.0.56-alpha.2 -- 2022-01-05
 
 - 2021-12-17 -- [@chasefleming](https://github.com/chasefleming): Fix bug `resolveArgument` is being executed in the wrong context.

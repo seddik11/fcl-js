@@ -109,14 +109,6 @@ async function authenticate({service, redir = false} = {}) {
     const opts = {redir}
     const discoveryService = await getDiscoveryService()
     const refreshService = serviceOfType(user.services, "authn-refresh")
-    const suppressRedirWarning = await config.get("fcl.warning.suppress.redir")
-
-    if (redir && !suppressRedirWarning) {
-      console.warn(
-        `You are manually enabling a very experimental feature that is not yet standard, use at your own risk.
-         You can disable this warning by setting fcl.warning.suppress.redir to true in your config`
-      )
-    }
     
     invariant(
       service || discoveryService.endpoint,
@@ -147,7 +139,10 @@ async function authenticate({service, redir = false} = {}) {
 
     try {
       const response = await execService({
-        service: service || discoveryService,
+        service: {
+          ...(service || discoveryService),
+          method: discoveryService?.method || service.method || "IFRAME/RPC"
+        },
         msg,
         opts,
         config: {

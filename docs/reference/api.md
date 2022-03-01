@@ -32,21 +32,21 @@
       - [Usage](#usage-2)
       - [Examples](#examples-2)
   - [`signUp`](#signup)
-  - [`login`](#login)
+  - [`logIn`](#login)
   - [`authz`](#authz)
       - [Returns](#returns)
       - [Usage](#usage-3)
     - [Current User](#current-user)
     - [Methods](#methods-1)
-  - [`currentUser().subscribe`](#currentusersubscribe)
+  - [`currentUser.subscribe`](#currentusersubscribe)
       - [Arguments](#arguments)
       - [Usage](#usage-4)
-  - [`currentUser().snapshot`](#currentusersnapshot)
+  - [`currentUser.snapshot`](#currentusersnapshot)
       - [Usage](#usage-5)
-  - [`currentUser().authenticate`](#currentuserauthenticate)
-  - [`currentUser().unauthenticate`](#currentuserunauthenticate)
-  - [`currentUser().authorization`](#currentuserauthorization)
-  - [`currentUser().signUserMessage`](#currentusersignusermessage)
+  - [`currentUser.authenticate`](#currentuserauthenticate)
+  - [`currentUser.unauthenticate`](#currentuserunauthenticate)
+  - [`currentUser.authorization`](#currentuserauthorization)
+  - [`currentUser.signUserMessage`](#currentusersignusermessage)
     - [Arguments](#arguments-1)
       - [Returns](#returns-1)
       - [Usage](#usage-6)
@@ -56,6 +56,7 @@
     - [Suggested Configuration](#suggested-configuration)
       - [Usage](#usage-7)
     - [authn](#authn)
+      - [More Configuration](#more-configuration)
   - [`discovery.authn.snapshot()`](#discoveryauthnsnapshot)
   - [`discovery.authn.subscribe(callback)`](#discoveryauthnsubscribecallback)
 - [On-chain Interactions](#on-chain-interactions)
@@ -157,21 +158,25 @@
       - [Arguments](#arguments-18)
       - [Returns](#returns-13)
       - [Usage](#usage-27)
-  - [`latestBlock`](#latestblock)
+  - [`block`](#block)
       - [Arguments](#arguments-19)
       - [Returns](#returns-14)
       - [Usage](#usage-28)
-    - [Transaction Status Utility](#transaction-status-utility)
-  - [`tx`](#tx)
+  - [`latestBlock` (Deprecated)](#latestblock-deprecated)
       - [Arguments](#arguments-20)
       - [Returns](#returns-15)
       - [Usage](#usage-29)
-      - [Examples](#examples-8)
-    - [Event Polling Utility](#event-polling-utility)
-  - [`events`](#events)
+    - [Transaction Status Utility](#transaction-status-utility)
+  - [`tx`](#tx)
       - [Arguments](#arguments-21)
       - [Returns](#returns-16)
       - [Usage](#usage-30)
+      - [Examples](#examples-8)
+    - [Event Polling Utility](#event-polling-utility)
+  - [`events`](#events)
+      - [Arguments](#arguments-22)
+      - [Returns](#returns-17)
+      - [Usage](#usage-31)
       - [Examples](#examples-9)
 - [Types, Interfaces, and Definitions](#types-interfaces-and-definitions)
     - [`Builders`](#builders-1)
@@ -184,11 +189,11 @@
     - [`ArgumentObject`](#argumentobject)
     - [`ArgumentFunction`](#argumentfunction)
     - [`Authorization Function`](#authorization-function)
-      - [Usage](#usage-31)
+      - [Usage](#usage-32)
       - [Examples:](#examples-10)
     - [`Signing Function`](#signing-function)
       - [Payload](#payload)
-      - [Usage](#usage-32)
+      - [Usage](#usage-33)
       - [Examples:](#examples-11)
     - [`TransactionRolesObject`](#transactionrolesobject)
     - [`EventName`](#eventname)
@@ -200,9 +205,9 @@
     - [`CollectionObject`](#collectionobject)
     - [`ResponseObject`](#responseobject)
     - [`Event Object`](#event-object)
-    - [`Transaction Statuses`](#transaction-statuses)
-    - [`GRPC Statuses`](#grpc-statuses)
-    - [`FType`](#ftype)
+  - [`Transaction Statuses`](#transaction-statuses)
+  - [`GRPC Statuses`](#grpc-statuses)
+  - [`FType`](#ftype)
 </div>
 
 # Configuration
@@ -262,7 +267,7 @@ addStuff().then((d) => console.log(d)); // 13 (5 + 7 + 1)
 | `accessNode.api` **(required)**        | `https://access-testnet.onflow.org`                  | API URL for the Flow Blockchain Access Node you want to be communicating with. See all available access node endpoints [here](https://docs.onflow.org/access-api/#flow-access-node-endpoints). |
 | `env`                                  | `testnet`                                            | Used in conjunction with stored interactions. Possible values: `local`, `canarynet`, `testnet`, `mainnet`                                                                                      |
 | `discovery.wallet` **(required)**      | `https://fcl-discovery.onflow.org/testnet/authn`     | Points FCL at the Wallet or Wallet Discovery mechanism.                                                                                                                                        |
-| `discovery.authn.endpoint` **(alpha)** | `https://fcl-discovery.onflow.org/api/testnet/authn` | Endpoint for alternative configurable Wallet Discovery mechanism. Read more on [discovery](#discovery)                                                                                                      |
+| `discovery.authn.endpoint`             | `https://fcl-discovery.onflow.org/api/testnet/authn` | Endpoint for alternative configurable Wallet Discovery mechanism. Read more on [discovery](#discovery)                                                                                                      |
 | `app.detail.title`                     | `Cryptokitties`                                      | Your applications title, can be requested by wallets and other services.                                                                                                                       |
 | `app.detail.icon`                      | `https://fcl-discovery.onflow.org/images/blocto.png` | Url for your applications icon, can be requested by wallets and other services.                                                                                                                |
 | `challenge.handshake`                  | **DEPRECATED**                                       | Use `discovery.wallet` instead.                                                                                                                                                                |
@@ -373,7 +378,7 @@ fcl.config().put("accessNode.api", "https://access-testnet.onflow.org");
 fcl.authenticate();
 // ... somewhere else & sometime later
 fcl.unauthenticate();
-// fcl.currentUser().loggedIn === null
+// fcl.currentUser.loggedIn === null
 ```
 
 #### Examples
@@ -417,7 +422,7 @@ A **convenience method** that calls and is equivalent to [`fcl.authenticate()`](
 
 ---
 
-## `login`
+## `logIn`
 
 > ⚠️**This method can only be used in web browsers.**
 
@@ -478,7 +483,7 @@ Holds the [current user](#currentuserobject), if set, and offers a set of functi
 
 ---
 
-## `currentUser().subscribe`
+## `currentUser.subscribe`
 
 The callback passed to subscribe will be called when the user authenticates and un-authenticates, making it easy to update the UI accordingly.
 
@@ -496,7 +501,7 @@ import * as fcl from "@onflow/fcl";
 
 export function AuthCluster() {
   const [user, setUser] = useState({ loggedIn: null });
-  useEffect(() => fcl.currentUser().subscribe(setUser), []); // sets the callback for FCL to use
+  useEffect(() => fcl.currentUser.subscribe(setUser), []); // sets the callback for FCL to use
 
   if (user.loggedIn) {
     return (
@@ -519,41 +524,41 @@ export function AuthCluster() {
 
 ---
 
-## `currentUser().snapshot`
+## `currentUser.snapshot`
 
-Returns the [current user](#currentuserobject) object. This is the same object that is set and available on [`fcl.currentUser().subscribe(callback)`](#currentusersubscribe).
+Returns the [current user](#currentuserobject) object. This is the same object that is set and available on [`fcl.currentUser.subscribe(callback)`](#currentusersubscribe).
 
 #### Usage
 
 ```javascript
 // returns the current user object
-const user = fcl.currentUser().snapshot();
+const user = fcl.currentUser.snapshot();
 
 // subscribes to the current user object and logs to console on changes
-fcl.currentUser().subscribe(console.log);
+fcl.currentUser.subscribe(console.log);
 ```
 
 ---
 
-## `currentUser().authenticate`
+## `currentUser.authenticate`
 
 Equivalent to `fcl.authenticate`.
 
 ---
 
-## `currentUser().unauthenticate`
+## `currentUser.unauthenticate`
 
 Equivalent to `fcl.unauthenticate`.
 
 ---
 
-## `currentUser().authorization`
+## `currentUser.authorization`
 
 Equivalent to `fcl.authz`
 
 ---
 
-## `currentUser().signUserMessage`
+## `currentUser.signUserMessage`
 
 A method to use allowing the user to personally sign data via FCL Compatible Wallets/Services.
 
@@ -579,7 +584,7 @@ import * as fcl from "@onflow/fcl"
 export const signMessage = async () => {
   const MSG = Buffer.from("FOO").toString("hex")
   try {
-    return await currentUser().signUserMessage(MSG)
+    return await currentUser.signUserMessage(MSG)
   } catch (error) {
     console.log(error)
   }
@@ -588,11 +593,13 @@ export const signMessage = async () => {
 
 ---
 
-### Discovery **(alpha)**
+### Discovery
 
 ## `discovery`
 
-An alternative to Discovery Wallet (a pre-built service list for authentication) where dapp developers can access services in directly in their code in order to build customized authentication experiences. 
+Discovery abstracts away code so that developers don't have to deal with the discovery of Flow compatible wallets, integration, or authentication. Using `discovery` from FCL allows dapps to list and authenticate with wallets while having full control over the UI. Common use cases for this are login or registration pages.
+
+(Alternatively, if you don't need control over your UI you can continue to use the `discovery.wallet` config value documented in the [Quickstart](https://docs.onflow.org/fcl/tutorials/flow-app-quickstart/) for the simplest configuration.)
 
 > ⚠️**The following methods can only be used in web browsers.**
 
@@ -617,18 +624,47 @@ import { useState, useEffect } from "react"
 import * as fcl from "@onflow/fcl"
 
 function Component() {
-  const [services, setServices] = useState([])
-  useEffect(() => fcl.discovery.authn.subscribe(res => setServices(res.results)), [])
+  const [wallets, setWallets] = useState([])
+  useEffect(() => fcl.discovery.authn.subscribe(res => setWallets(res.results)), [])
 
   return (
     <div>
-      {services.map(service => <button key={service.provider.address} onClick={() => fcl.authenticate({ service })}>Login with {service.provider.name}</button>)}
+      {wallets.map((wallet) => (
+        <button
+          key={wallet.provider.address}
+          onClick={() => fcl.authenticate({ service: wallet })}
+        >
+          Login with {wallet.provider.name}
+        </button>
+      ))}
     </div>
   )
 }
 ```
 
 ### authn
+
+#### More Configuration
+
+By default, limited functionality services, like Ledger, require apps to opt-in in order to display to users. This is so users don't authenticate only to later find out certain services cannot complete certain actions. To enable specific limited functionality services in an application, use the `discovery.authn.include` property in your configuration with a value of an array of services you'd like your app to opt-in to displaying for users.
+
+```javascript
+
+import { config } from "@onflow/fcl"
+
+config({
+  "discovery.authn.endpoint": "https://fcl-discovery.onflow.org/api/testnet/authn", // Endpoint set to Testnet
+  "discovery.authn.include": ["0x9d2e44203cb13051"] // Ledger wallet address on Testnet set to be included
+})
+```
+
+**Wallet Addresses on Testnet and Mainnet**
+
+| Service    | Testnet            | Mainnet            |
+| ---------- | ------------------ | ------------------ |
+| `Ledger`   | 0x9d2e44203cb13051 | 0xe5cd26afebe62781 |
+
+For more details on wallets, view the [service list here](https://github.com/onflow/fcl-discovery/blob/master/data/services.json).
 
 ---
 
@@ -756,7 +792,7 @@ const txId = await fcl.mutate({
 
 ## `verifyUserSignatures`
 
-A method allowing applications to cryptographically verify the ownership of a Flow account by verifying a message was signed by a user's private key/s. This is typically used with the response from `currentUser().signUserMessage`.
+A method allowing applications to cryptographically verify the ownership of a Flow account by verifying a message was signed by a user's private key/s. This is typically used with the response from `currentUser.signUserMessage`.
 
 ### Arguments
 
@@ -1455,7 +1491,37 @@ const account = await fcl.account("0x1d007d755706c469");
 
 ---
 
-## `latestBlock`
+## `block`
+
+A pre-built interaction that returns the latest block (optionally sealed or not), by id, or by height.
+
+#### Arguments
+
+| Name     | Type    | Default | Description                                                                    |
+| -------- | ------- | ------- | ------------------------------------------------------------------------------ |
+| `sealed` | boolean | false   | If the latest block should be sealed or not. See [block states](#interaction). |
+| `id`     | string  |         | ID of block to get.                                                            |
+| `height` | int     |         | Height of block to get.                                                        |
+
+#### Returns
+
+| Type                        | Description                       |
+| --------------------------- | --------------------------------- |
+| [BlockObject](#blockobject) | A JSON representation of a block. |
+
+#### Usage
+
+```javascript
+import * as fcl from "@onflow/fcl";
+await fcl.block() // get latest finalized block
+await fcl.block({sealed: true}) // get latest sealed block
+await fcl.block({id: '0b1bdfa9ddaaf31d53c584f208313557d622d1fedee1586ffc38fb5400979faa'}) // get block by id
+await fcl.block({height: 56481953}) // get block by height
+```
+
+---
+
+## `latestBlock` (Deprecated)
 
 A pre-built interaction that returns the latest block (optionally sealed or not).
 

@@ -1,6 +1,6 @@
 {
   "name": "@onflow/sdk",
-  "version": "0.0.56-alpha.2",
+  "version": "0.0.57-alpha.3",
   "description": "Flow SDK",
   "license": "Apache-2.0",
   "author": "Dapper Labs <dev@dapperlabs.com>",
@@ -30,14 +30,12 @@
     "alpha": "npm publish --tag alpha",
     "prepublishOnly": "npm test && npm run build",
     "test": "jest",
-    "build": "microbundle",
+    "build": "microbundle --define process.env.CURRENT_VERSION=\"$(node -e \"console.log(require('./package.json').version)\")\"",
+    "currentVersion": "node -e \"console.log(require('./package.json').version",
     "test:watch": "jest --watch",
     "start": "microbundle watch"
   },
   "dependencies": {
-    "@improbable-eng/grpc-web": "^0.14.0",
-    "@improbable-eng/grpc-web-node-http-transport": "^0.14.0",
-    "@onflow/protobuf": "^0.1.8",
     "@onflow/rlp": "^0.0.3",
     "@onflow/util-actor": "0.0.2",
     "@onflow/util-address": "^0.0.0",

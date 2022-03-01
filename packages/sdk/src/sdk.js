@@ -39,6 +39,7 @@ export {template as cdc} from "@onflow/util-template"
 // Helpers
 export {latestBlock} from "./latest-block/latest-block.js"
 export {account} from "./account/account.js"
+export {block} from "./block/block.js"
 
 // Builders
 export {authorizations, authorization} from "./build/build-authorizations.js"
@@ -66,7 +67,7 @@ export {script} from "./build/build-script.js"
 export {transaction} from "./build/build-transaction.js"
 export {validator} from "./build/build-validator.js"
 export {invariant} from "./build/build-invariant.js"
-// export {preSendCheck} from "./build/build-pre-send-check.js"
+export {voucherIntercept} from "./build/build-voucher-intercept.js"
 
 // Resolvers
 export {resolveCadence} from "./resolve/resolve-cadence.js"
@@ -77,7 +78,7 @@ export {resolveAccounts} from "./resolve/resolve-accounts.js"
 export {resolveSignatures} from "./resolve/resolve-signatures.js"
 export {resolveValidators} from "./resolve/resolve-validators.js"
 export {resolveRefBlockId} from "./resolve/resolve-ref-block-id.js"
-// export {resolvePreSendCheck} from "./resolve/resolve-pre-send-check.js"
+export {resolveVoucherIntercept} from "./resolve/resolve-voucher-intercept.js"
 
 // Config
 export {config} from "./config"

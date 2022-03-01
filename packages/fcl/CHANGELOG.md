@@ -1,3 +1,44 @@
+## Unreleased
+
+- 2022-02-25 -- [gregsantos](https://github.com/gregsantos): Remove `"FCL:LAUNCH:EXTENSION"` type from extension util send
+- 2022-02-14 -- [gregsantos](https://github.com/gregsantos): Update `WalletUtils` encoding for authn-signing and auth-verifying.
+Encoding should leave all field that can exist as Buffers before RLP encoding as Buffers. This strategy will help maintain greater consistency with how these fields are treated when encoded in other areas of Flow.
+
+```js
+MESSAGE = 
+  HEX(
+    USER_DOMAIN_TAG, // Buffer, right padded to 32 bytes long
+    RLP(
+      APP_DOMAIN_TAG, // [Optional] Buffer, right padded to 32 bytes long
+      ADDRESS,  // Buffer, left padded to 8 bytes long
+      TIMESTAMP // Number
+    )
+  )
+```
+- 2022-02-14 -- [chasefleming](https://github.com/chasefleming): Remove experimental redir warning from previous alpha build.
+- 2022-02-08 -- [gregsantos](https://github.com/gregsantos): Update extension strategy to add support for `EXT/RPC` service method
+
+## 0.0.79-alpha.3 - 2022-02-03
+
+- 2022-02-03 -- [gregsantos](https://github.com/gregsantos): VSN `@onflow/sdk` 0.0.57-alpha.2 -> 0.0.57-alpha.3
+- 2022-02-03 -- [gregsantos](https://github.com/gregsantos): Export `voucherIntercept` and `voucherToTxId` from `sdk`
+- 2022-02-02 -- [gregsantos](https://github.com/gregsantos): Update start script to set current `VERSION`
+
+## 0.0.79-alpha.2 - 2022-01-21
+
+- 2022-01-21 -- [@JeffreyDoyle](https://github.com/JeffreyDoyle): VSN `@onflow/sdk` 0.0.57-alpha.1 -> 0.0.57-alpha.2
+
+## 0.0.79-alpha.1 - 2022-01-21
+
+- 2022-01-21 -- [@JeffreyDoyle](https://github.com/JeffreyDoyle): VSN `@onflow/sdk` 0.0.56 -> 0.0.57-alpha.1
+
+## 0.0.78-alpha.11 - 2022-01-19
+
+- 2022-01-19 -- Expose new `block` method from `@onflow/sdk`.
+- 2022-01-19 -- VSN `@onflow/sdk` 0.0.56-alpha.2 -> 0.0.56-alpha.3
+- 2022-01-18 -- Support `discovery.wallet.method` options when set in config for authentication with Discovery API services.
+- 2022-01-18 -- Add missing `service` and `app` to config for exec service redirect.
+
 ## 0.0.78-alpha.10 - 2022-01-05
 
 - 2021-12-17 -- Fix bug where `currentUser` passed as an argument is failing.

@@ -5,6 +5,7 @@ import {execTabRPC} from "./strategies/tab-rpc"
 import {execExtRPC} from "./strategies/ext-rpc"
 import {invariant} from "@onflow/util-invariant"
 import {configLens} from "../../config-utils"
+import {VERSION} from "../../VERSION"
 
 const STRATEGIES = {
   "HTTP/RPC": execHttpPost,
@@ -16,24 +17,35 @@ const STRATEGIES = {
 }
 
 export async function execService({service, msg = {}, opts = {}, config = {}}) {
+  const fullConfig = {
+    ...config,
+    services: await configLens(/^service\./),
+    app: await configLens(/^app\.detail\./),
+    client: {
+      fclVersion: VERSION,
+      fclLibrary: "https://github.com/onflow/fcl-js",
+      hostname: window?.location?.hostname ?? null
+    }
+  }
+
   try {
     const res = await STRATEGIES[service.method](
       service, 
       msg, 
       opts, 
-      {
-        ...config,
-        services: await configLens(/^service\./),
-        app: await configLens(/^app\.detail\./),
-      }
+      fullConfig
     )
     if (res.status === "REDIRECT") {
       invariant(
         service.type === res.data.type,
         "Cannot shift recursive service type in execService"
       )
-      service = res.data
-      return await execService({service, msg, opts, config})
+      return await execService({
+        service: res.data, 
+        msg, 
+        opts, 
+        config: fullConfig
+      })
     } else {
       return res
     }
