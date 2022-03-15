@@ -1,12 +1,12 @@
-import {invariant} from "@onflow/util-invariant"
-import {query} from "../exec/query"
-import {Buffer} from "@onflow/rlp"
+import { invariant } from "@onflow/util-invariant"
+import { query } from "../exec/query"
+import { Buffer } from "@onflow/rlp"
 
 export const validateArgs = (msg, compSigs) => {
   invariant(/^[0-9a-f]+$/i.test(msg), "Signed message must be a hex string")
   invariant(
     Array.isArray(compSigs) &&
-      compSigs.every((sig, i, arr) => sig.f_type === "CompositeSignature"),
+    compSigs.every((sig, i, arr) => sig.f_type === "CompositeSignature"),
     "Must include an Array of CompositeSignatures to verify"
   )
   invariant(
@@ -112,7 +112,7 @@ const VERIFY_SIG_SCRIPT = `
       totalWeight = totalWeight + weight
     }
     
-    assert(totalWeight >= 1000.0, message: "Signature key weights do not meet threshold >= 1000.0")
+    assert(totalWeight >= 900.0, message: "Signature key weights do not meet threshold >= 900.0")
 
     var i = 0
     for rawPublicKey in rawPublicKeys {
